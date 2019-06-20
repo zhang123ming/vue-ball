@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title></title>
+	<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+	
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			.ball{
+				width: 15px;
+				height: 15px;
+				border-radius: 50%;
+				background: crimson;
+			}
+		</style>
+	</head>
+	<body>
+
+		<div id="root">
+			<button type="button" style="width: 100px;height: 50px;font-size: 30px;" @click="handleClick">点击</button>
+			<transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
+				<div v-show="show" class="ball"></div>
+			</transition>
+		</div>
+
+		<script>
+			Vue.directive("focus", function(el) {
+
+			})
+			var vm = new Vue({
+				el: "#root",
+				data: {
+					show: false
+				},
+				methods: {
+					handleClick: function() {
+						this.show = !this.show;
+					},
+					// el动画钩子函数的第一个参数 el 表示 要执行动画的那个Dom 是个原生的 JS DOm 对象
+					beforeEnter(el) {
+						// 设置小球开始动画之前的起始位置
+						el.style.transform = "translate(0,0)"
+					},
+					enter(el, done) {
+						// 表示动画开始之后的样式 这里可以设置小球完成动画值的结束位置
+
+						//没有实际作用 不写没有动画效果  el.offsetHeight 	el.offsetTop 	el.offsetLeft 均可以写
+						el.offsetWidth;
+						el.style.transform = "translate(150px,450px)"
+						el.style.transition = "all .6s ease"
+						done();//小球完成之后立即消失  done 就是afterEnter这个函数 也就是说 就是afterEnter的引用
+					},
+					afterEnter(el) {
+						this.show = !this.show;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
